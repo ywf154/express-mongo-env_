@@ -1,5 +1,5 @@
 const Joi = require('joi');
-
+//数据验证规则：给到对象schema
 const schema = Joi.object({
   name: Joi.string()
     .min(3)
