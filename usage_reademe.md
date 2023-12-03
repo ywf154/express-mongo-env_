@@ -134,6 +134,94 @@ console.log(users);
 ``monk` 还提供了其他功能，例如更新文档、删除文档、创建索引等。您可以查阅 `monk` 的官方文档以获取更详细的使用指南和示例。
 需要注意的是，monk 是一个轻量级的驱动程序，相对于更复杂的 MongoDB 驱动程序（如官方的 mongodb 驱动程序）来说，它提供了更简单的接口和更少的功能。如果您需要更高级的功能或更细粒度的控制，可以考虑使用其他 MongoDB 驱动程序。
 
+使用 `monk` 库进行 MongoDB 的增删改查操作非常简单。以下是一些常见操作的示例代码：
+
+**插入文档（Create）:**
+
+```javascript
+const monk = require('monk');
+const db = monk('mongodb://localhost:27017/mydb');
+const users = db.get('users');
+
+const newUser = {
+  name: 'John Doe',
+  age: 30,
+  email: 'johndoe@example.com'
+};
+
+// 插入新文档
+users.insert(newUser).then((insertedUser) => {
+  console.log('插入成功:', insertedUser);
+}).catch((error) => {
+  console.error('插入失败:', error);
+});
+```
+
+**查询文档（Read）:**
+
+```javascript
+// 查询所有文档
+users.find({}).then((docs) => {
+  console.log('查询结果:', docs);
+}).catch((error) => {
+  console.error('查询失败:', error);
+});
+
+// 根据条件查询文档
+users.find({ age: { $gt: 25 } }).then((docs) => {
+  console.log('查询结果:', docs);
+}).catch((error) => {
+  console.error('查询失败:', error);
+});
+
+// 根据 ID 查询单个文档
+const userId = '1234567890';
+users.findOne({ _id: userId }).then((doc) => {
+  console.log('查询结果:', doc);
+}).catch((error) => {
+  console.error('查询失败:', error);
+});
+```
+
+**更新文档（Update）:**
+
+```javascript
+const userId = '1234567890';
+const updatedData = {
+  name: 'Updated Name',
+  age: 35
+};
+
+// 根据 ID 更新文档
+users.update({ _id: userId }, { $set: updatedData }).then((result) => {
+  console.log('更新成功:', result);
+}).catch((error) => {
+  console.error('更新失败:', error);
+});
+```
+
+**删除文档（Delete）:**
+
+```javascript
+const userId = '1234567890';
+
+// 根据 ID 删除文档
+users.remove({ _id: userId }).then((result) => {
+  console.log('删除成功:', result);
+}).catch((error) => {
+  console.error('删除失败:', error);
+});
+```
+
+在上述示例中，我们首先连接到数据库并获取集合对象。然后，使用集合对象上的相应方法执行操作。注意，这里的操作都返回 Promise 对象，我们可以使用 `then` 和 `catch` 进行结果处理和错误处理。
+
+对于查询操作，可以使用各种条件来指定查询的文档。在更新操作中，我们使用 `$set` 操作符来指定要更新的字段和值。在删除操作中，我们使用 `remove` 方法并传递一个条件来删除匹配的文档。
+
+请根据您的具体需求和数据模型进行相应的修改和调整。
+
+希望这些示例可以帮助您进行 MongoDB 的增删改查操作！如果您有任何其他问题，请随时提问。
+
+
 ### 6. joi
 Joi 是一个用于 JavaScript 对象模式验证的库，它可以帮助您定义和验证数据的结构、类型和约束。它通常用于验证用户输入、API 请求参数、配置对象等，以确保数据的完整性和正确性。
 ```javascript

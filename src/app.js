@@ -8,8 +8,6 @@ const bodyParser = require('body-parser');
 const { notFound, errorHandler } = require('./middlewares');
 
 const app = express();
- 
-
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
